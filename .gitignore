@@ -78,5 +78,8 @@ typings/
 # FuseBox cache
 .fusebox/
 
+# Excel data
+.xlsx
+.xls
 
 # End of https://www.gitignore.io/api/node
