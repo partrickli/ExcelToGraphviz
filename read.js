@@ -12,7 +12,7 @@ function drawLink(link) {
 
 /**
  *
- * @param {Array} nodes
+ * @param {Array<string>} links
  */
 function drawLinks(links) {
   return links
