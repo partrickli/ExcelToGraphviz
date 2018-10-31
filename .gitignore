@@ -79,10 +79,10 @@ typings/
 .fusebox/
 
 # Excel data
-.xlsx
-.xls
+*.xlsx
+*.xls
 
 # GraphViz output
-.dot
+*.dot
 
 # End of https://www.gitignore.io/api/node
