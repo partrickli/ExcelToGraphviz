@@ -1,17 +1,12 @@
 const xlsx = require('xlsx');
 const fs = require('fs');
 
-const read = xlsx.readFile('./data.xlsx');
-
-const accessSheet = 'access';
-
-const sheet = read.Sheets[accessSheet];
-
-const nodes = xlsx.utils.sheet_to_json(sheet);
-
-function drawDevice(device) {
+/**
+ * draw a link between two node in a row of sheet
+ */
+function drawLink(link) {
   return `
-    ${device['L1']} -> ${device['L2']}
+    ${link['start']} -> ${link['end']}
   `;
 }
 
@@ -19,21 +14,26 @@ function drawDevice(device) {
  *
  * @param {Array} nodes
  */
-function drawNodes(nodes) {
-  return nodes
-    .map((d) => {
-      return drawDevice(d);
+function drawLinks(links) {
+  return links
+    .map((link) => {
+      return drawLink(link);
     })
     .join('');
 }
 
+const read = xlsx.readFile('./nodes.xlsx');
+
+const accessSheet = 'access';
+
+const sheet = read.Sheets[accessSheet];
+
+const nodes = xlsx.utils.sheet_to_json(sheet);
 // Graphviz command
 let gv = `digraph { 
     rankdir=LR
-    ${drawNodes(nodes)}
- }`;
-
-console.log(gv);
+    ${drawLinks(nodes)}
+}`;
 
 // Write to file
 fs.writeFile('./gv.dot', gv, (err) => {
