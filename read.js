@@ -9,9 +9,6 @@ const sheet = read.Sheets[accessSheet];
 
 const nodes = xlsx.utils.sheet_to_json(sheet);
 
-const device = nodes[0];
-console.log(device);
-
 function drawDevice(device) {
   return `
     ${device['L1']} -> ${device['L2']}
@@ -27,11 +24,12 @@ function drawNodes(nodes) {
     .map((d) => {
       return drawDevice(d);
     })
-    .join('\n');
+    .join('');
 }
 
 // Graphviz command
 let gv = `digraph { 
+    rankdir=LR
     ${drawNodes(nodes)}
  }`;
 
