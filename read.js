@@ -5,37 +5,37 @@ const fs = require('fs');
  * draw a link between two node in a row of sheet
  */
 function drawLink(link) {
-  return `
-    ${link['start']} -> ${link['end']}
-  `;
+  return `${link['start']} -> ${link['end']}`;
 }
 
 /**
  *
- * @param {Array<string>} links
  */
-function drawLinks(links) {
-  return links
+function graph(links) {
+  const nodesDraw = links
     .map((link) => {
       return drawLink(link);
     })
-    .join('');
+    .join('\n    ');
+  return `digraph { 
+    rankdir=LR
+    ${nodesDraw}
+  }`;
 }
 
-const read = xlsx.readFile('./nodes.xlsx');
+// Read links from excel
+const read = xlsx.readFile('./data.xlsx');
 
-const accessSheet = 'access';
+const accessSheet = 'links';
 
 const sheet = read.Sheets[accessSheet];
 
-const nodes = xlsx.utils.sheet_to_json(sheet);
-// Graphviz command
-let gv = `digraph { 
-    rankdir=LR
-    ${drawLinks(nodes)}
-}`;
+const links = xlsx.utils.sheet_to_json(sheet);
 
-// Write to file
+// Graphviz command
+const gv = graph(links);
+
+// Write to graphviz dot file
 fs.writeFile('./gv.dot', gv, (err) => {
   if (err) {
     console.log('write file error');
