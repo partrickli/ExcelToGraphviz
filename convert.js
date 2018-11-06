@@ -36,9 +36,12 @@ const accessSheet = 'links';
 const sheet = read.Sheets[accessSheet];
 
 const links = xlsx.utils.sheet_to_json(sheet);
+const filteredLinks = links.filter((link) => {
+  return link['start'] != undefined && link['end'] != undefined;
+});
 
 // Graphviz command
-const gv = graph(links);
+const gv = graph(filteredLinks);
 
 // Write to graphviz dot file
 fs.writeFile('./gv.dot', gv, (err) => {
