@@ -1,5 +1,6 @@
 const xlsx = require('xlsx');
 const fs = require('fs');
+const path = require('path');
 
 /**
  * draw a link between two node in a row of sheet
@@ -24,7 +25,11 @@ function graph(links) {
 }
 
 // Read links from excel
-const read = xlsx.readFile('./data.xlsx');
+const outputFileName = 'gv.dot';
+const inputFileName = process.argv[2];
+const inputPath = path.join(__dirname, inputFileName);
+
+const read = xlsx.readFile(inputPath);
 
 const accessSheet = 'links';
 
