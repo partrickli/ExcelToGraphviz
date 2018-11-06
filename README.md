@@ -4,11 +4,14 @@ Tool for converting excel sheet to graphviz format.
 
 ## Input data
 
+The excel file contains lines, which describing link between nodes.
 ![data](./images/data.png)
 
 Excecute command as follows.
 
-> node convert.js
+> node convert.js data.xlsx
+
+The second argument work as input link data source. `data.xlsx`
 
 ## Output graphviz dot file
 
