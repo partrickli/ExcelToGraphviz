@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "convert": "node ./convert.js data.xlsx && dot -Tpdf gv.dot -o output.pdf && open output.pdf"
   },
   "keywords": [],
   "author": "",
