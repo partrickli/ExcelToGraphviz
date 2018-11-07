@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "convert": "node ./convert.js data.xlsx && dot -Tpdf gv.dot -o output.pdf && open output.pdf"
+    "convert": "node ./convert.js data.xlsx && dot -Tpdf gv.dot -o output.pdf && open output.pdf",
+    "watch:data": "npx onchange 'data.xlsx' -- npm run convert"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "onchange": "^5.1.0",
     "xlsx": "^0.14.0"
   }
 }

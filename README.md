@@ -13,6 +13,12 @@ go to the root path in terminal, and run:
 
 Topology will be opened in default pdf reader.
 
+## Watch mode
+
+> npm run watch:data
+
+Any change on ./data.xlsx will be reflected on pdf which will be automatically opened on default pdf reader.
+
 ## Input data
 
 The excel file contains lines, which describing link between nodes.
