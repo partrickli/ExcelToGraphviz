@@ -30,7 +30,13 @@ function excelFilePath() {
  * draw a link between two node in a row of sheet
  */
 function drawLink(link) {
-  return `${link['start']} -> ${link['end']}`;
+  let start = String(link['start'])
+    .toUpperCase()
+    .replace('-', '_');
+  let end = String(link['end'])
+    .toUpperCase()
+    .replace('-', '_');
+  return `${start} -> ${end}`;
 }
 
 /**
