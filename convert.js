@@ -2,6 +2,19 @@ const xlsx = require('xlsx');
 const fs = require('fs');
 const path = require('path');
 
+/**
+ *
+ * @param {string} root
+ */
+function filePaths(root) {
+  let fileNames = fs.readdirSync(root);
+  fileNames = fileNames.filter((file) => !file.startsWith('.'));
+  let paths = fileNames.map((fileName) => {
+    return path.join(root, fileName);
+  });
+  return paths;
+}
+
 // filter blank lines of link
 function validate(link) {
   return link['start'] && link['end'] && link['end'] != '机房名称';
@@ -10,7 +23,7 @@ function validate(link) {
 /**
  * @description Read link from excel sheet, and filter data not available
  */
-function readLinks(filePath) {
+function readLinksFromFile(filePath) {
   const workbook = xlsx.readFile(filePath);
   const sheets = workbook.SheetNames;
   const linksOfAllSheets = sheets.reduce((links, sheetName) => {
@@ -18,6 +31,15 @@ function readLinks(filePath) {
     return links.concat(current);
   }, []);
   return linksOfAllSheets.filter((link) => validate(link));
+}
+
+function readLinksFromDirectory(directory) {
+  let paths = filePaths(directory);
+
+  return paths.reduce((links, path) => {
+    const linksOfCurrentFile = readLinksFromFile(path);
+    return links.concat(linksOfCurrentFile);
+  }, []);
 }
 
 function excelFilePath() {
@@ -54,8 +76,7 @@ function graph(links) {
 }
 
 // Read links from excel
-const dataPath = excelFilePath();
-const filteredLinks = readLinks(dataPath);
+const filteredLinks = readLinksFromDirectory('./topology');
 filteredLinks.forEach((link) => {
   console.log(link);
 });

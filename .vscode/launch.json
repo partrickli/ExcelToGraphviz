@@ -7,6 +7,12 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Experiment",
+      "program": "${workspaceFolder}/experiment.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "ReadXlsx",
       "program": "${workspaceFolder}/convert.js"
     }
