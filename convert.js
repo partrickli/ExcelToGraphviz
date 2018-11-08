@@ -17,6 +17,12 @@ function filePaths(root) {
 
 // filter blank lines of link
 function validate(link) {
+  [link['start'], link['end']].forEach((node) => {
+    if (/^\d/.test(node)) {
+      console.log(`${node}: can not start with number`);
+      console.log('不能以数字开头，改成字母\n');
+    }
+  });
   return link['start'] && link['end'] && link['end'] != '机房名称';
 }
 
@@ -77,9 +83,6 @@ function graph(links) {
 
 // Read links from excel
 const filteredLinks = readLinksFromDirectory('./topology');
-filteredLinks.forEach((link) => {
-  console.log(link);
-});
 // Graphviz command
 const gv = graph(filteredLinks);
 
