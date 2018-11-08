@@ -2,24 +2,28 @@ const xlsx = require('xlsx');
 const fs = require('fs');
 const path = require('path');
 
+// filter blank lines of link
+function validate(link) {
+  return link['start'] && link['end'];
+}
+
 /**
  * @description Read link from excel sheet, and filter data not available
  */
-function readLinks() {
-  // read output graphviz dot file path from nodejs argument
+function readLinks(filePath) {
+  const workbook = xlsx.readFile(filePath);
+  const sheets = workbook.SheetNames;
+  const linksOfAllSheets = sheets.reduce((links, sheetName) => {
+    const current = xlsx.utils.sheet_to_json(workbook.Sheets[sheetName]);
+    return links.concat(current);
+  }, []);
+  return linksOfAllSheets.filter((link) => validate(link));
+}
+
+function excelFilePath() {
   const inputFileName = process.argv[2];
   const inputPath = path.join(__dirname, inputFileName);
-
-  const read = xlsx.readFile(inputPath);
-  const accessSheet = 'links';
-  const sheet = read.Sheets[accessSheet];
-  const links = xlsx.utils.sheet_to_json(sheet);
-
-  // filter blank lines of link
-  const filteredLinks = links.filter((link) => {
-    return link['start'] != undefined && link['end'] != undefined;
-  });
-  return filteredLinks;
+  return inputPath;
 }
 
 /**
@@ -45,8 +49,11 @@ function graph(links) {
 }
 
 // Read links from excel
-const filteredLinks = readLinks();
-
+const dataPath = excelFilePath();
+const filteredLinks = readLinks(dataPath);
+filteredLinks.forEach((link) => {
+  console.log(link);
+});
 // Graphviz command
 const gv = graph(filteredLinks);
 
