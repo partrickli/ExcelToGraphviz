@@ -4,7 +4,7 @@ const path = require('path');
 
 // filter blank lines of link
 function validate(link) {
-  return link['start'] && link['end'];
+  return link['start'] && link['end'] && link['end'] != '机房名称';
 }
 
 /**
@@ -37,14 +37,13 @@ function drawLink(link) {
  *
  */
 function graph(links) {
-  const nodesDraw = links
-    .map((link) => {
-      return drawLink(link);
-    })
-    .join('\n    ');
+  const linksToDraw = links.map((link) => {
+    return drawLink(link);
+  });
+  const removeDuplicated = Array.from(new Set(linksToDraw));
   return `digraph { 
     rankdir=LR
-    ${nodesDraw}
+    ${removeDuplicated.join('\n    ')}
   }`;
 }
 
